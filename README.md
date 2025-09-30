@@ -1,36 +1,202 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏥 WeCureIT
 
-## Getting Started
+A modern healthcare platform built with **Next.js 15**, **TypeScript**, **Prisma**, and **Supabase**.
 
-First, run the development server:
+## 🚀 Quick Setup & Installation
 
+### Prerequisites
+- **Node.js** (v18 or higher)
+- **npm** or **yarn**
+- **Git**
+
+### 1️⃣ Clone the Repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/ullasbc02/WeCureIT.git
+cd WeCureIT
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2️⃣ Install Dependencies
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3️⃣ Environment Setup
+1. Copy the environment file:
+   ```bash
+   cp .env.example .env
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Update the `.env` file with your Supabase credentials:
+   ```env
+   # Connect to Supabase via connection pooling
+   DATABASE_URL="postgresql://postgres.[PROJECT_REF]:[YOUR_PASSWORD]@aws-[REGION].pooler.supabase.com:6543/postgres?pgbouncer=true"
+   
+   # Direct connection to the database (for migrations)
+   DIRECT_URL="postgresql://postgres.[PROJECT_REF]:[YOUR_PASSWORD]@db.[PROJECT_REF].supabase.co:5432/postgres"
+   ```
+   
+   > **Note:** Replace `[PROJECT_REF]`, `[YOUR_PASSWORD]`, and `[REGION]` with your actual Supabase project details.
 
-## Learn More
+### 4️⃣ Database Setup
+```bash
+# Generate Prisma client
+npx prisma generate
 
-To learn more about Next.js, take a look at the following resources:
+# Push schema to database (if needed)
+npx prisma db push
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 5️⃣ Test Database Connection
+```bash
+node test-database.js
+```
+You should see your admin users data if the connection is successful.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🏃‍♂️ Running the Application
 
-## Deploy on Vercel
+### Development Mode
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Production Build
+```bash
+npm run build
+npm start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🛠️ Tech Stack
+
+- **Frontend:** Next.js 15, TypeScript, React 19, Tailwind CSS
+- **Backend:** Next.js API Routes
+- **Database:** PostgreSQL (Supabase)
+- **ORM:** Prisma
+- **Authentication:** NextAuth.js (configured)
+- **Styling:** Tailwind CSS
+
+## 📁 Project Structure
+
+```
+WeCureIT/
+├── src/
+│   ├── app/                 # Next.js 15 App Router
+│   │   ├── api/            # API endpoints
+│   │   ├── globals.css     # Global styles
+│   │   ├── layout.tsx      # Root layout
+│   │   └── page.tsx        # Home page
+│   └── generated/          # Generated Prisma client
+├── prisma/
+│   └── schema.prisma       # Database schema
+├── public/                 # Static assets
+├── .env                    # Environment variables
+├── test-database.js        # Database connection test
+└── README.md
+```
+
+## 🗄️ Database Schema
+
+The application uses the following main table:
+
+### `admin_users`
+- `id` (BigInt, Auto-increment)
+- `name` (String)
+- `email` (String, Unique)
+
+## 🔧 Available Scripts
+
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm start            # Start production server
+npm run lint         # Run ESLint
+npx prisma studio    # Open Prisma Studio (database GUI)
+npx prisma generate  # Generate Prisma client
+npx prisma db push   # Push schema changes to database
+```
+
+## 🌐 API Endpoints
+
+### Health Check
+- **GET** `/api/health` - Check backend status
+
+### Database Test
+- **GET** `/api/db-test` - Test database connection
+
+### Admin Users (Example)
+- **GET** `/api/admin-users` - Get all users
+- **POST** `/api/admin-users` - Create new user
+
+## 📝 Environment Variables
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `DATABASE_URL` | Supabase connection string (pooled) | `postgresql://postgres...` |
+| `DIRECT_URL` | Direct database connection (for migrations) | `postgresql://postgres...` |
+
+## 🔍 Testing Database Connection
+
+Run the test script to verify your database connection:
+
+```bash
+node test-database.js
+```
+
+Expected output:
+```javascript
+[
+  { id: 1001n, name: 'William Blade', email: 'william.blade@gmail.com' },
+  { id: 1002n, name: 'Alice John', email: 'alice.john@gmail.com' },
+  { id: 1003n, name: 'Bob Marley', email: 'bob.marley@gmail.com' }
+]
+```
+
+## 🚨 Common Issues & Solutions
+
+### 1. Prisma Client Not Generated
+```bash
+Error: @prisma/client did not initialize yet
+```
+**Solution:** Run `npx prisma generate`
+
+### 2. Database Connection Failed
+```bash
+Error: Can't reach database server
+```
+**Solution:** 
+- Check your `.env` file
+- Verify Supabase credentials
+- Ensure your IP is whitelisted in Supabase
+
+### 3. Module Not Found Error
+**Solution:** Make sure you've run `npm install`
+
+## 🔐 Security Notes
+
+- Never commit `.env` files to version control
+- Use environment variables for all sensitive data
+- Keep your Supabase credentials secure
+- Regularly rotate database passwords
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📞 Support
+
+If you encounter any issues:
+1. Check the [Common Issues](#-common-issues--solutions) section
+2. Run the database test: `node test-database.js`
+3. Open an issue on GitHub
+
+---
+
+**Happy Coding! 🎉**
