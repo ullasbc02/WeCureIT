@@ -17,6 +17,7 @@ cd WeCureIT
 
 ### 2️⃣ Install Dependencies
 ```bash
+cd frontend
 npm install
 ```
 
