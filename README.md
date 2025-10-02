@@ -45,7 +45,7 @@ npm start
 ## 🛠️ Tech Stack
 
 - **Frontend:** Next.js 15, TypeScript, React 19, Tailwind CSS
-- **Backend:** Next.js API Routes
+- **Backend:** Java Spring Boot (to be done)
 - **Authentication:** NextAuth.js (available)
 - **Styling:** Tailwind CSS
 
