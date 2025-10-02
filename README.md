@@ -1,6 +1,6 @@
 # 🏥 WeCureIT
 
-A modern healthcare platform built with **Next.js 15**, **TypeScript**, **Prisma**, and **Supabase**.
+A modern healthcare platform built with **Next.js 15** and **TypeScript**.
 
 ## 🚀 Quick Setup & Installation
 
@@ -20,37 +20,13 @@ cd WeCureIT
 npm install
 ```
 
-### 3️⃣ Environment Setup
+### 3️⃣ Environment Setup (Optional)
 1. Copy the environment file:
    ```bash
    cp .env.example .env
    ```
 
-2. Update the `.env` file with your Supabase credentials:
-   ```env
-   # Connect to Supabase via connection pooling
-   DATABASE_URL="postgresql://postgres.[PROJECT_REF]:[YOUR_PASSWORD]@aws-[REGION].pooler.supabase.com:6543/postgres?pgbouncer=true"
-   
-   # Direct connection to the database (for migrations)
-   DIRECT_URL="postgresql://postgres.[PROJECT_REF]:[YOUR_PASSWORD]@db.[PROJECT_REF].supabase.co:5432/postgres"
-   ```
-   
-   > **Note:** Replace `[PROJECT_REF]`, `[YOUR_PASSWORD]`, and `[REGION]` with your actual Supabase project details.
-
-### 4️⃣ Database Setup
-```bash
-# Generate Prisma client
-npx prisma generate
-
-# Push schema to database (if needed)
-npx prisma db push
-```
-
-### 5️⃣ Test Database Connection
-```bash
-node test-database.js
-```
-You should see your admin users data if the connection is successful.
+2. Update the `.env` file with your configuration as needed.
 
 ## 🏃‍♂️ Running the Application
 
@@ -70,9 +46,7 @@ npm start
 
 - **Frontend:** Next.js 15, TypeScript, React 19, Tailwind CSS
 - **Backend:** Next.js API Routes
-- **Database:** PostgreSQL (Supabase)
-- **ORM:** Prisma
-- **Authentication:** NextAuth.js (configured)
+- **Authentication:** NextAuth.js (available)
 - **Styling:** Tailwind CSS
 
 ## 📁 Project Structure
@@ -80,28 +54,14 @@ npm start
 ```
 WeCureIT/
 ├── src/
-│   ├── app/                 # Next.js 15 App Router
-│   │   ├── api/            # API endpoints
-│   │   ├── globals.css     # Global styles
-│   │   ├── layout.tsx      # Root layout
-│   │   └── page.tsx        # Home page
-│   └── generated/          # Generated Prisma client
-├── prisma/
-│   └── schema.prisma       # Database schema
+│   └── app/                 # Next.js 15 App Router
+│       ├── globals.css     # Global styles
+│       ├── layout.tsx      # Root layout
+│       └── page.tsx        # Home page
 ├── public/                 # Static assets
-├── .env                    # Environment variables
-├── test-database.js        # Database connection test
+├── .env                    # Environment variables (optional)
 └── README.md
 ```
-
-## 🗄️ Database Schema
-
-The application uses the following main table:
-
-### `admin_users`
-- `id` (BigInt, Auto-increment)
-- `name` (String)
-- `email` (String, Unique)
 
 ## 🔧 Available Scripts
 
@@ -110,73 +70,24 @@ npm run dev          # Start development server
 npm run build        # Build for production
 npm start            # Start production server
 npm run lint         # Run ESLint
-npx prisma studio    # Open Prisma Studio (database GUI)
-npx prisma generate  # Generate Prisma client
-npx prisma db push   # Push schema changes to database
-```
-
-## 🌐 API Endpoints
-
-### Health Check
-- **GET** `/api/health` - Check backend status
-
-### Database Test
-- **GET** `/api/db-test` - Test database connection
-
-### Admin Users (Example)
-- **GET** `/api/admin-users` - Get all users
-- **POST** `/api/admin-users` - Create new user
-
-## 📝 Environment Variables
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `DATABASE_URL` | Supabase connection string (pooled) | `postgresql://postgres...` |
-| `DIRECT_URL` | Direct database connection (for migrations) | `postgresql://postgres...` |
-
-## 🔍 Testing Database Connection
-
-Run the test script to verify your database connection:
-
-```bash
-node test-database.js
-```
-
-Expected output:
-```javascript
-[
-  { id: 1001n, name: 'William Blade', email: 'william.blade@gmail.com' },
-  { id: 1002n, name: 'Alice John', email: 'alice.john@gmail.com' },
-  { id: 1003n, name: 'Bob Marley', email: 'bob.marley@gmail.com' }
-]
 ```
 
 ## 🚨 Common Issues & Solutions
 
-### 1. Prisma Client Not Generated
-```bash
-Error: @prisma/client did not initialize yet
-```
-**Solution:** Run `npx prisma generate`
-
-### 2. Database Connection Failed
-```bash
-Error: Can't reach database server
-```
-**Solution:** 
-- Check your `.env` file
-- Verify Supabase credentials
-- Ensure your IP is whitelisted in Supabase
-
-### 3. Module Not Found Error
+### 1. Module Not Found Error
 **Solution:** Make sure you've run `npm install`
+
+### 2. Port Already in Use
+```bash
+Error: Port 3000 is already in use
+```
+**Solution:** Kill the process using port 3000 or use a different port
 
 ## 🔐 Security Notes
 
 - Never commit `.env` files to version control
-- Use environment variables for all sensitive data
-- Keep your Supabase credentials secure
-- Regularly rotate database passwords
+- Use environment variables for sensitive data
+- Keep API keys and secrets secure
 
 ## 🤝 Contributing
 
@@ -194,8 +105,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you encounter any issues:
 1. Check the [Common Issues](#-common-issues--solutions) section
-2. Run the database test: `node test-database.js`
-3. Open an issue on GitHub
+2. Open an issue on GitHub
 
 ---
 
